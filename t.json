@@ -1,0 +1,68 @@
+{
+"collection_modes": [
+        {
+            "name_" : "default",
+            "periodic_inform_interval" : -1,
+            "send_to" : [],
+            "collection_method" : "no_operation",
+            "parameters" : []
+        }
+    ,
+
+        {
+            "name_" : "VH4032N",
+            "periodic_inform_interval" : 3600,
+            "interval_calculation" : "relaxed",
+            "send_to" : ["statistics_gpvs"],
+            "collection_method" : "gpv",
+            "parameters" : [
+                {"name_" : "MO", "tr_value_long" : "DeviceInfo.ManufacturerOUI", "action": []},
+                {"name_" : "PC", "tr_value_long" : "DeviceInfo.ProductClass", "action": []},
+                {"name_" : "M", "tr_value_long" : "DeviceInfo.Manufacturer", "action": []},
+                {"name_" : "MN", "tr_value_long" : "DeviceInfo.ModelName", "action": ["keep_recent"]},
+                {"name_" : "SN", "tr_value_long" : "DeviceInfo.SerialNumber", "action": []},
+                {"name_" : "HV", "tr_value_long" : "DeviceInfo.HardwareVersion", "action": []},
+                {"name_" : "SV", "tr_value_long" : "DeviceInfo.SoftwareVersion", "action": []},
+                {"name_" : "PrC", "tr_value_long" : "DeviceInfo.ProvisioningCode", "action": []},
+                {"name_" : "PII", "tr_value_long" : "ManagementServer.PeriodicInformInterval"},
+                {"name_" : "lan.UT", "tr_value_long" : "DeviceInfo.UpTime", "action": ["keep_recent", "ts_for_cpes"]},
+                {"name_" : "MU", "tr_value_long" : "ManagementServer.URL", "action": ["keep_recent"]},
+                {"name_" : "MCU", "tr_value_long" : "ManagementServer.ConnectionRequestUsername", "action": ["keep_recent"]}
+            ]
+        }
+    ,
+
+        {
+            "name_" : "HG253",
+            "periodic_inform_interval" : 3600,
+            "interval_calculation" : "relaxed",
+            "send_to" : ["statistics_gpvs"],
+            "collection_method" : "gpv",
+            "parameters" : [
+                {"name_" : "MO", "tr_value_long" : "DeviceInfo.ManufacturerOUI", "action": []},
+                {"name_" : "PC", "tr_value_long" : "DeviceInfo.ProductClass", "action": []},
+                {"name_" : "M", "tr_value_long" : "DeviceInfo.Manufacturer", "action": []},
+                {"name_" : "MN", "tr_value_long" : "DeviceInfo.ModelName", "action": ["keep_recent"]},
+                {"name_" : "SN", "tr_value_long" : "DeviceInfo.SerialNumber", "action": []}
+
+            ]
+        }
+    ,
+
+        {
+           "name_" : "HG253.1",
+           "periodic_inform_interval" : 3600,
+           "interval_calculation" : "relaxed",
+           "send_to" : ["statistics_gpvs"],
+           "collection_method" : "gpv",
+           "parameters" : [
+               {"name_" : "MO", "tr_value_long" : "DeviceInfo.ManufacturerOUI", "action": []},
+               {"name_" : "PC", "tr_value_long" : "DeviceInfo.ProductClass", "action": []},
+               {"name_" : "M", "tr_value_long" : "DeviceInfo.Manufacturer", "action": []},
+               {"name_" : "MN", "tr_value_long" : "DeviceInfo.ModelName", "action": ["keep_recent"]},
+               {"name_" : "SN", "tr_value_long" : "DeviceInfo.SerialNumber", "action": []},
+               {"name_" : "HV", "tr_value_long" : "DeviceInfo.HardwareVersion", "action": []}
+           ]
+        }
+    ]
+}
