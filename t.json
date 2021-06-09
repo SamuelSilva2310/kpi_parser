@@ -32,37 +32,48 @@
         }
     ,
 
-        {
-            "name_" : "HG253",
-            "periodic_inform_interval" : 3600,
-            "interval_calculation" : "relaxed",
-            "send_to" : ["statistics_gpvs"],
-            "collection_method" : "gpv",
-            "parameters" : [
-                {"name_" : "MO", "tr_value_long" : "DeviceInfo.ManufacturerOUI", "action": []},
-                {"name_" : "PC", "tr_value_long" : "DeviceInfo.ProductClass", "action": []},
-                {"name_" : "M", "tr_value_long" : "DeviceInfo.Manufacturer", "action": []},
-                {"name_" : "MN", "tr_value_long" : "DeviceInfo.ModelName", "action": ["keep_recent"]},
-                {"name_" : "SN", "tr_value_long" : "DeviceInfo.SerialNumber", "action": []}
 
-            ]
+    {
+            "name_": "cmts_discovery",
+            "collection_method": "snmp",
+            "send_to": ["cmts_parse_sys_descr"],
+            "interval": "4h",
+            "timer_mode": "absolute",
+            "snmp_version": "3",
+            "queries": {
+                "get_base_params": {
+                    "type": "GET",
+                    "parameters": [
+                        "sysDescr"
+                    ]
+
+                }
+            },
+            "parameters": {
+                "sysDescr": {
+                    "oid": "1.3.6.1.2.1.1.1.0",
+                    "action": ["cmts_calc_mode"]
+                },
+                "sys_descr": {
+                    "action": ["cmts_calc_mode"]
+                }
+            }
         }
     ,
-
-        {
-           "name_" : "HG253.1",
-           "periodic_inform_interval" : 3600,
-           "interval_calculation" : "relaxed",
-           "send_to" : ["statistics_gpvs"],
-           "collection_method" : "gpv",
-           "parameters" : [
-               {"name_" : "MO", "tr_value_long" : "DeviceInfo.ManufacturerOUI", "action": []},
-               {"name_" : "PC", "tr_value_long" : "DeviceInfo.ProductClass", "action": []},
-               {"name_" : "M", "tr_value_long" : "DeviceInfo.Manufacturer", "action": []},
-               {"name_" : "MN", "tr_value_long" : "DeviceInfo.ModelName", "action": ["keep_recent"]},
-               {"name_" : "SN", "tr_value_long" : "DeviceInfo.SerialNumber", "action": []},
-               {"name_" : "HV", "tr_value_long" : "DeviceInfo.HardwareVersion", "action": []}
-           ]
-        }
+       {
+               "name_" : "HG253.1",
+               "periodic_inform_interval" : 3600,
+               "interval_calculation" : "relaxed",
+               "send_to" : ["statistics_gpvs"],
+               "collection_method" : "gpv",
+               "parameters" : [
+                   {"name_" : "MO", "tr_value_long" : "DeviceInfo.ManufacturerOUI", "action": []},
+                   {"name_" : "PC", "tr_value_long" : "DeviceInfo.ProductClass", "action": []},
+                   {"name_" : "M", "tr_value_long" : "DeviceInfo.Manufacturer", "action": []},
+                   {"name_" : "MN", "tr_value_long" : "DeviceInfo.ModelName", "action": ["keep_recent"]},
+                   {"name_" : "SN", "tr_value_long" : "DeviceInfo.SerialNumber", "action": []},
+                   {"name_" : "HV", "tr_value_long" : "DeviceInfo.HardwareVersion", "action": []}
+               ]
+       }
     ]
 }

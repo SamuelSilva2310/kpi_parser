@@ -1,30 +1,41 @@
+"""
+This the main file of the parser. This Script loads a .json file
+and for each collection_mode it generates a .csv file
+
+The format of columns are:
+        - ['KPI Description', 'KPI Name', 'Actions', 'OID', 'Normalize', 'Source']
+
+The way items are written into the .csv file is by giving the writer object a dict:
+        -  {
+            'KPI Description': kpi_description,
+            'KPI Name': kpi_name,
+            'Actions': kpi_action,
+            'OID': kpi_oid,
+            'Normalize': kpi_normalize,
+            'Source': kpi_source
+            }
+
+Author: Samuel Silva
+Date: 9/06/2021
+"""
+
 import json
 import csv
 import os
 
-#GLOBAL CONSTANTS
+# GLOBAL CONSTANTS
 OUTPUT_FOLDER = "output"
 FILENAME = "t.json"
 FIELDNAMES = ['KPI Description', 'KPI Name', 'Actions', 'OID', 'Normalize', 'Source']
 
 
-# USE THIS FORMAT LATER TO WRITE INTO THE CSV FILE
-# To add multiple items into the same cell we need to join them into a str
-# Example: ["name1", "name2"] : list --> ','.join(["name1", "name2"])
-
-# data = {
-#         'KPI Description': "test Description",
-#         'KPI Name': "test Name",
-#         'Actions': "test Actions",
-#         'OID': "test OID",
-#         'Normalize': "test NOMALIZE",
-#         'Source': "test SOURCE",
-#             }
-
-def get_data(parameter):
+def get_data(parameter, name=None):
     """
-    Recieves the parameters, gets all data needed, makes a dict and return it
+    Recieves the parameters when its a list and also a name when its a dict, gets all data needed,
+    creates a proper dict which will be used as the row for the csv file and returns it.
+
     :param parameter: dict
+    :param name: str
     :return: dict -> data
     """
 
@@ -38,7 +49,9 @@ def get_data(parameter):
     if 'description' in parameter:
         description = parameter['description']
 
-    if 'name_' in parameter:
+    if name:
+        kpi_name = name
+    elif 'name_' in parameter:
         kpi_name = parameter['name_']
 
     if 'action' in parameter:
@@ -78,21 +91,31 @@ def write_into_csv_file(collection_mode):
     :parameter collection_mode: list
     :return: None
     """
-    filename = collection_mode['name_']
+    filename = collection_mode['name_'] + ".csv"
+    file_path = os.path.join(OUTPUT_FOLDER, filename)
+
+    rows = []
     parameters = collection_mode['parameters']
 
-    if not filename.endswith(".csv"):
-        filename += ".csv"
-
-    file_path = os.path.join(OUTPUT_FOLDER, filename)
+    # If parameters is a list for each item call get_data(item)
+    # If parameters is a dict, get all keys and for each key, call get_data() passing the value inside each item,
+    # also the get_data(name) parameter will be the key
+    if isinstance(parameters, list):
+        print(f"[PARAMETERS] Parameters are List file: {filename}")
+        for parameter in parameters:
+            rows.append(get_data(parameter))
+    else:
+        print(f"[PARAMETERS] Parameters are Dict file: {filename}")
+        for parameter_key in parameters.keys():
+            rows.append(get_data(parameters[parameter_key], parameter_key))
 
     with open(file_path, 'w', newline='') as csv_file:
         writer = csv.DictWriter(csv_file, fieldnames=FIELDNAMES)
-        writer.writeheader()
+        print(f"[WRITING] Writing data into file: {filename} \n")
 
-        for parameter in parameters:
-            data = get_data(parameter)
-            writer.writerow(data)
+        writer.writeheader()
+        for row in rows:
+            writer.writerow(row)
 
 
 def main():
@@ -103,8 +126,13 @@ def main():
     :return:
     """
     with open(FILENAME, "r") as data_file:
+        print("[LOADING] Loading json data...")
+
         data = json.load(data_file)
+        print("[LOADED] json data was loaded\n")
         collection_modes = data['collection_modes']
+
+        print("[GENERATING] Generating files...\n")
         for collection_mode in collection_modes:
             write_into_csv_file(collection_mode)
 
