@@ -122,11 +122,13 @@ def write_into_csv_file(collection_mode):
 
 def main():
     """
-    Function main, loads necessary json data and for each collection_mode,
+    Function main, loads necessary json data and for easch collection_mode,
     calls the write_into_csv_file method and generates a csv file
 
     :return: None
     """
+    if not os.path.exists(OUTPUT_FOLDER):
+        os.mkdir(OUTPUT_FOLDER)
     with open(FILENAME, "r") as data_file:
         print("[LOADING] Loading json data...")
         s = data_file.read()
