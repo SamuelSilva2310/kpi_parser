@@ -1,4 +1,7 @@
 """
+Author: Samuel Silva
+Date: 9/06/2021
+
 This the main file of the parser. This Script loads a .json file
 and for each collection_mode it generates a .csv file
 
@@ -14,18 +17,17 @@ The way items are written into the .csv file is by giving the writer object a di
             'Normalize': kpi_normalize,
             'Source': kpi_source
             }
-
-Author: Samuel Silva
-Date: 9/06/2021
 """
-
+import ast
 import json
+
+import commentjson
 import csv
 import os
 
 # GLOBAL CONSTANTS
 OUTPUT_FOLDER = "output"
-FILENAME = "t.json"
+FILENAME = "parsed.json"
 FIELDNAMES = ['KPI Description', 'KPI Name', 'Actions', 'OID', 'Normalize', 'Source']
 
 
@@ -123,13 +125,15 @@ def main():
     Function main, loads necessary json data and for each collection_mode,
     calls the write_into_csv_file method and generates a csv file
 
-    :return:
+    :return: None
     """
     with open(FILENAME, "r") as data_file:
         print("[LOADING] Loading json data...")
+        s = data_file.read()
+        data = ast.literal_eval(s)
 
-        data = json.load(data_file)
         print("[LOADED] json data was loaded\n")
+
         collection_modes = data['collection_modes']
 
         print("[GENERATING] Generating files...\n")
