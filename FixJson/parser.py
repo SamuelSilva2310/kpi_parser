@@ -1,11 +1,11 @@
 import time
 
-FILENAME = "full_config.fe1.json"
+FILENAME = "../full_config.fe1.json"
 
 
 def remove_comments():
     with open(FILENAME, "r+") as f:
-        with open('parsed.json', 'w') as w:
+        with open('../parsed.json', 'w') as w:
             run = True
             i = 2048
             lines = f.readlines(i)

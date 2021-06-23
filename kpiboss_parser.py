@@ -19,26 +19,23 @@ The way items are written into the .csv file is by giving the writer object a di
             }
 """
 import ast
-import json
-
-import commentjson
 import csv
 import os
 
 # GLOBAL CONSTANTS
-OUTPUT_FOLDER = "output"
+OUTPUT_FOLDER = "outputa"
 FILENAME = "parsed.json"
 FIELDNAMES = ['KPI Description', 'KPI Name', 'Actions', 'OID', 'Normalize', 'Source']
 
 
 def get_data(parameter, name=None):
     """
-    Recieves the parameters when its a list and also a name when its a dict, gets all data needed,
+    Receives the parameters when its a list and also a name when its a dict, gets all data needed,
     creates a proper dict which will be used as the row for the csv file and returns it.
 
     :param parameter: dict
     :param name: str
-    :return: dict -> data
+    :return: data :: dict
     """
 
     kpi_description = ""
@@ -49,7 +46,7 @@ def get_data(parameter, name=None):
     kpi_source = ""
 
     if 'description' in parameter:
-        description = parameter['description']
+        kpi_description = parameter['description']
 
     if name:
         kpi_name = name
@@ -87,7 +84,7 @@ def get_data(parameter, name=None):
 
 def write_into_csv_file(collection_mode):
     """
-    Gets all data and writes into a csv file using a DictWriter
+    Gets all data and writes into a csv file using a DictWriter from the csv module
     CSV Writing order -> [KPI Description , KPI Name , Actions , OID , Normalize , Source]
 
     :parameter collection_mode: list
@@ -122,13 +119,14 @@ def write_into_csv_file(collection_mode):
 
 def main():
     """
-    Function main, loads necessary json data and for easch collection_mode,
+    Function main, loads necessary json data and for each collection_mode,
     calls the write_into_csv_file method and generates a csv file
 
     :return: None
     """
     if not os.path.exists(OUTPUT_FOLDER):
         os.mkdir(OUTPUT_FOLDER)
+
     with open(FILENAME, "r") as data_file:
         print("[LOADING] Loading json data...")
         s = data_file.read()
